@@ -4,6 +4,7 @@ models:
     description: string
     start_date: datetime
     end_date: datetime
+    is_published: boolean
     status: string
     region: string
     venue_id: unsignedInteger nullable

@@ -6,12 +6,14 @@ use App\Filament\Resources\ConferenceResource\Pages;
 use App\Filament\Resources\ConferenceResource\RelationManagers;
 use App\Models\Conference;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Get;
 
 class ConferenceResource extends Resource
 {
@@ -25,20 +27,34 @@ class ConferenceResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('start_date')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('end_date')
-                    ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(60),
                 Forms\Components\TextInput::make('region')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\MarkdownEditor::make('description')
+                    ->required()
+                    ->columnSpan([
+                        'sm' => 1,
+                        'lg' => 2,
+                        'xl' => 2,
+                    ]),
+                Forms\Components\DatePicker::make('start_date')
+                    ->required(),
+                Forms\Components\DatePicker::make('end_date')
+                    ->required(),
+                Forms\Components\Toggle::make('is_published')
+                    ->default(false)
+                    ->columnSpan([
+                        'sm' => 1,
+                        'lg' => 2,
+                        'xl' => 2,
+                    ]),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                        'archived' => 'Archived',
+                    ]),
                 Forms\Components\Select::make('venue_id')
                     ->relationship('venue', 'name'),
             ]);
